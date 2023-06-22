@@ -19,7 +19,7 @@ private lateinit var  sharedPreferncesManager: SharedPreferencesManager
 
         mBinding.agregar.setOnClickListener{
             guardaDatos()
-            mostraDatos()
+            mostrarDatos()
         }
 
 
@@ -39,9 +39,20 @@ private lateinit var  sharedPreferncesManager: SharedPreferencesManager
 
     }
 
-    fun mostraDatos(){
-    val saveWordList = sharedPreferncesManager.getWordList()
-        mBinding.palabras.setText(saveWordList.toString())
+    fun mostrarDatos() {
+        sharedPreferncesManager = SharedPreferencesManager(this)
+        val wordList = sharedPreferncesManager.getWordList()
 
-    }
-}
+        val stringBuilder = StringBuilder()
+        // Iterar sobre la lista de pares de palabras y mostrar los datos
+        for (pair in wordList.getWordPairs()) {
+            val key = pair.first
+            val value = pair.second
+            println("Clave: $key - Valor: $value")
+            // mostrar los datos en la forma que desees, como en una vista de texto
+            stringBuilder.append("Clave: $key - Valor: $value\n")
+
+// Mostrar los datos en el TextView
+            mBinding.palabras.text = stringBuilder.toString()
+        }
+}}

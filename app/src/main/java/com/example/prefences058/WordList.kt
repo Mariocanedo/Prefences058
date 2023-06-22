@@ -3,8 +3,13 @@ package com.example.prefences058
 class WordList{
 
 // lista de datos
-    private val wordPairs: MutableList<Pair<String, String>> = mutableListOf()
+  private val wordPairs: MutableList<Pair<String, String>> = mutableListOf()
 
+    // agrego  para poder que las palabras no borren la anterior y utilzar esta variable en clase SharedPrefences
+    // como la varibles esta privada hago un funcion que retorne la lista para poder utilzarla desde preferencias
+    fun getWordPairs(): MutableList<Pair<String, String>> {
+        return wordPairs
+    }
 // guardar palabras
 fun addWord(key: String, value: String) {
 
@@ -65,7 +70,7 @@ fun addWord(key: String, value: String) {
 
 
 
-    }
+}
 
 
 

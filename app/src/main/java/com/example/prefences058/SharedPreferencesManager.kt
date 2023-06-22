@@ -16,8 +16,14 @@ class SharedPreferencesManager(context: Context) {
 
 
     fun saveWordList(wordList: WordList){
-         val editor = sharedPreferences.edit()
-        editor.putString(KEY_WORD_LIST,wordList.getSerializedString())
+        // SE AGREGA PARA COMBINAR LAS LISTAS
+        val previousWordList = getWordList().getWordPairs() // Obtener la lista anterior de palabras
+        val combinedWordPairs = ArrayList(previousWordList) // Crear una nueva lista combinada
+
+        combinedWordPairs.addAll(wordList.getWordPairs()) // Combinar con la nueva lista
+
+        val editor = sharedPreferences.edit()
+        editor.putString(KEY_WORD_LIST, WordList().apply { getWordPairs().addAll(combinedWordPairs) }.getSerializedString())
         editor.apply()
 
     }
@@ -25,7 +31,13 @@ class SharedPreferencesManager(context: Context) {
     fun getWordList(): WordList{
 
         val serializeWordList = sharedPreferences.getString(KEY_WORD_LIST,"")
-        return  WordList().apply { deserializeFromString(serializeWordList) }
+       // return  WordList().apply { deserializeFromString(serializeWordList) }
+        // agrego esto para no borrar la palabra anterior
+        // lamo la clase
+        val wordList=WordList()
+        wordList.deserializeFromString(serializeWordList)
+        return wordList
+
     }
 
 }
